@@ -47,7 +47,8 @@ class Server:
             self.dataset()
         return self.__dataset[start_index:end_index]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10):
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> \
+            Dict[str, Union[Union[int, None], List[List]]]:
         """
         Gets items for a given page and page_size with hypermedia
         for next_page, and prev_page
