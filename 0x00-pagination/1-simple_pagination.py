@@ -35,6 +35,10 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """
+        Gets items for the given page and page_size
+        """
+
         assert type(page) == int and page > 0, \
             "page should be positive integer"
         assert type(page_size) == int and page_size > 0, \
