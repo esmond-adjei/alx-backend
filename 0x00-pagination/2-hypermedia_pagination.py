@@ -4,7 +4,7 @@ Simple Helper Function For Pagination
 """
 import csv
 import math
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Union, Optional
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -48,7 +48,7 @@ class Server:
         return self.__dataset[start_index:end_index]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> \
-            Dict[str, Union[int, List[List]], None]:
+            Dict[str, Union[int, List[Union[int, str]], Optional[int]]]:
         """
         Gets items for a given page and page_size with hypermedia
         for next_page, and prev_page
