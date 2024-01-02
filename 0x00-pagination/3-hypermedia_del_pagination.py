@@ -50,11 +50,11 @@ class Server:
             "index out of range"
         assert type(page_size) == int and page_size > 0, \
             "page_size should be a positive integer"
+
         page_initial_data = self.__indexed_dataset.get(index, None)
         start_index = index if page_initial_data else index + 1
-
-        next_index = start_index + page_size
-        data = self.__dataset[start_index: next_index]
+        next_index = index + page_size
+        data = self.__dataset[index: next_index]
 
         return {
             'index': index,
