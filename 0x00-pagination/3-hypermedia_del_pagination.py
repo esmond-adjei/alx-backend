@@ -45,8 +45,7 @@ class Server:
         """
         assert type(index) == int and index > 0, \
             "index should be a positive integer"
-        total_pages = math.ceil(len(self.__dataset) / page_size)
-        assert 0 <= index < total_pages, \
+        assert 0 <= index < len(self.__dataset), \
             "index out of range"
         assert type(page_size) == int and page_size > 0, \
             "page_size should be a positive integer"
