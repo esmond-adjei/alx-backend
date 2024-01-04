@@ -11,6 +11,7 @@ class LFUCache(BaseCaching):
     - get: get item from lfu cache
     """
     def __init__(self):
+        """init LFUCache"""
         super().__init__()
         self.lfu_table = {}
 
@@ -24,7 +25,7 @@ class LFUCache(BaseCaching):
                 item_discarded = min(self.lfu_table, key=self.lfu_table.get)
                 self.lfu_table.pop(item_discarded)
                 self.cache_data.pop(item_discarded)
-                print("DISCARD:", item_discarded)
+                print(f"DISCARD: {item_discarded}")
             self.lfu_table[key] = self.lfu_table.get(key, 0) + 1
 
     def get(self, key):
