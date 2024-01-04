@@ -1,38 +1,42 @@
-#!/usr/bin/python3
-""" 3-lru_cache """
-
-BaseCaching = __import__('base_caching').BaseCaching
+#!/usr/bin/env python3
+"""
+LRU caching: LRUCache class
+"""
+from collections import OrderedDict
+from base_caching import BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """LRU Cache"""
-
+    """LRUCache defines:
+    - put: adds to lru cache
+    - get: get item from lru cache
+    """
     def __init__(self):
-        """Initialize the LRU Cache"""
         super().__init__()
-        self.order = []
+        self.lru_table = OrderedDict()
 
     def put(self, key, item):
-        """Add an item to the cache"""
-        if key is None or item is None:
-            return
+        """
+        adds item to lru cache
+        """
+        if key and item:
+            self.lru_table[key] = item
+            self.lru_table.move_to_end(key)
+            self.cache_data[key] = item
 
-        if key in self.cache_data:
-            self.order.remove(key)
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            item_discarded = next(iter(self.lru_table))
+            del self.cache_data[item_discarded]
+            print("DISCARD:", item_discarded)
 
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            lru_key = self.order.pop(0)
-            del self.cache_data[lru_key]
-            print(f"DISCARD: {lru_key}")
-
-        self.cache_data[key] = item
-        self.order.append(key)
+        if len(self.lru_table) > BaseCaching.MAX_ITEMS:
+            self.lru_table.popitem(last=False)
 
     def get(self, key):
-        """Retrieve an item from the cache"""
-        if key is None or key not in self.cache_data:
-            return None
-
-        self.order.remove(key)
-        self.order.append(key)
-        return self.cache_data[key]
+        """
+        Return the value in self.cache_data linked to key
+        """
+        if key in self.cache_data:
+            self.lru_table.move_to_end(key)
+            return self.cache_data[key]
+        return None
