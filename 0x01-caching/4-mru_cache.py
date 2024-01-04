@@ -19,10 +19,11 @@ class MRUCache(BaseCaching):
         """
         adds item to mru cache
         """
-        if key and item:
-            self.mru_table[key] = item
-            self.mru_table.move_to_end(key)
-            self.cache_data[key] = item
+        if key is None or item is None:
+            return
+
+        self.cache_data[key] = item
+        self.mru_table[key] = item
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             item_discarded = next(iter(self.mru_table))
@@ -32,11 +33,13 @@ class MRUCache(BaseCaching):
         if len(self.mru_table) > BaseCaching.MAX_ITEMS:
             self.mru_table.popitem(last=False)
 
+        self.mru_table.move_to_end(key, last=False)
+
     def get(self, key):
         """
         Return the value in self.cache_data linked to key
         """
         if key in self.cache_data:
-            self.mru_table.move_to_end(key)
+            self.mru_table.move_to_end(key, last=False)
             return self.cache_data[key]
         return None
