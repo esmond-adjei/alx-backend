@@ -1,42 +1,42 @@
 #!/usr/bin/env python3
 """
-MRU caching: MRUCache class
+LRU caching: LRUCache class
 """
 from collections import OrderedDict
 from base_caching import BaseCaching
 
 
-class MRUCache(BaseCaching):
-    """MRUCache defines:
-    - put: adds to mru cache
-    - get: get item from mru cache
+class LRUCache(BaseCaching):
+    """LRUCache defines:
+    - put: adds to lru cache
+    - get: get item from lru cache
     """
     def __init__(self):
         super().__init__()
-        self.mru_table = OrderedDict()
+        self.lru_table = OrderedDict()
 
     def put(self, key, item):
         """
-        adds item to mru cache
+        adds item to lru cache
         """
         if key and item:
-            self.mru_table[key] = item
-            self.mru_table.move_to_end(key)
+            self.lru_table[key] = item
+            self.lru_table.move_to_end(key)
             self.cache_data[key] = item
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            item_discarded = next(iter(self.mru_table))
+            item_discarded = next(iter(self.lru_table))
             del self.cache_data[item_discarded]
             print("DISCARD:", item_discarded)
 
-        if len(self.mru_table) > BaseCaching.MAX_ITEMS:
-            self.mru_table.popitem(last=False)
+        if len(self.lru_table) > BaseCaching.MAX_ITEMS:
+            self.lru_table.popitem(last=False)
 
     def get(self, key):
         """
         Return the value in self.cache_data linked to key
         """
         if key in self.cache_data:
-            self.mru_table.move_to_end(key)
+            self.lru_table.move_to_end(key)
             return self.cache_data[key]
         return None
