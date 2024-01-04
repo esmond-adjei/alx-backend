@@ -31,7 +31,7 @@ class LFUCache(BaseCaching):
         """
         Return the value in self.cache_data linked to key
         """
-        if not key or  key not in self.cache_data:
+        if not key or key not in self.cache_data:
             return
         self.lfu_table[key] += 1
         return self.cache_data.get(key)
