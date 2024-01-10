@@ -19,10 +19,10 @@ app = Flask(__name__)
 app.url_map.strick_slashes = False
 app.config.from_object(Config)
 
-# bable setup
-bable = Bable(app)
+# babel setup
+babel = Bable(app)
 
-@bable.localeselector
+@babel.localeselector
 def get_locale():
     '''configures best match language for user'''
     return request.accept_languages.best_match(app.config["LANGUAGES"])

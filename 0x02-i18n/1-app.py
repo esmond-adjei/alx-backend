@@ -19,8 +19,8 @@ app = Flask(__name__)
 app.url_map.strick_slashes = False
 app.config.from_object(Config)
 
-# bable setup
-bable = Bable(app)
+# babel setup
+babel = Bable(app)
 
 # routes
 @app.route('/')

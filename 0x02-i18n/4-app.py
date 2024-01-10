@@ -25,6 +25,9 @@ babel = Bable(app)
 @babel.localeselector
 def get_locale():
     '''configures best match language for user'''
+    locale_ = request.args.get('locale')
+    if locale_ in app.config['LANGUAGES']:
+        return locale_
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 # routes
