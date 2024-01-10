@@ -48,13 +48,18 @@ def get_locale():
     locale_ = request.args.get('locale')
     if locale_ in app.config['LANGUAGES']:
         return locale_
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+    if g.user and g.user['locale'] in app.config["LANGUAGES"]:
+        return g.user['locale']
+    locale_ = request.headers.get('locale', '')
+    if header_locale in app.config["LANGUAGES"]:
+        return locale_
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 # routes
 @app.route('/')
 def index():
     '''Render index page'''
-    return render_template('5-index.html')
+    return render_template('6-index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
